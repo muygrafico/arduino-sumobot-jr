@@ -9,33 +9,32 @@ var keypress = require('keypress')
 var events = require('events')
 var eventEmitter = new events.EventEmitter()
 var currentKey
-// var ringBell = function ringBell () {
-//   console.log('ring ring ring')
-// }
-// eventEmitter.on('doorOpen', ringBell)
-// eventEmitter.emit('doorOpen')
-
-eventEmitter.on('Forward', function () {
-  currentKey = 'Forward'
+//  F = Forward B = Backward L = Left R = Right
+eventEmitter.on('F', function () {
+  currentKey = 'F'
+  console.log('Forward')
 })
 
-eventEmitter.on('Backward', function () {
-  currentKey = 'Backward'
+eventEmitter.on('B', function () {
+  currentKey = 'B'
+  console.log('Backward')
 })
 
-eventEmitter.on('Left', function () {
-  currentKey = 'Left'
+eventEmitter.on('L', function () {
+  currentKey = 'L'
+  console.log('Left')
 })
 
-eventEmitter.on('Right', function () {
-  currentKey = 'Right'
+eventEmitter.on('R', function () {
+  currentKey = 'R'
+  console.log('Right')
 })
 
 var board = new five.Board()
 
 board.on('ready', function () {
   console.log('Welcome to Sumobot Jr!')
-  console.log('Control the bot with the arrow keys, and SPACE to stop.')
+  console.log('Control the bot with the arrow keys')
 
   var leftWheel = new five.Servo({ pin: 11, type: 'continuous' }).stop()
   var rightWheel = new five.Servo({ pin: 10, type: 'continuous' }).stop()
@@ -43,21 +42,19 @@ board.on('ready', function () {
   setInterval(function () {
     setTimeout(function () { currentKey = null }, 100)
     switch (currentKey) {
-      case 'Forward':
-        // leftWheel.ccw()
-        // rightWheel.cw()
+      case 'F':
         leftWheel.cw()
         rightWheel.ccw()
         break
-      case 'Backward':
+      case 'B':
         leftWheel.ccw()
         rightWheel.cw()
         break
-      case 'Left':
+      case 'L':
         leftWheel.ccw()
         rightWheel.ccw()
         break
-      case 'Right':
+      case 'R':
         leftWheel.cw()
         rightWheel.cw()
         break
@@ -65,9 +62,8 @@ board.on('ready', function () {
         leftWheel.stop()
         rightWheel.stop()
         break
-      // default:
     }
-    console.log(currentKey)
+    // console.log(currentKey)
   }, 90)
 
   keypress(process.stdin)
@@ -76,30 +72,17 @@ board.on('ready', function () {
   process.stdin.setRawMode(true)
   process.stdin.on('keypress', function (ch, key) {
     if (!key) { return }
-
     if (key.name === 'q') {
       console.log('Quitting')
-      // process.exit()
+      process.exit()
     } else if (key.name === 'up') {
-      // console.log('Forward')
-      eventEmitter.emit('Forward')
-      // leftWheel.ccw()
-      // rightWheel.cw()
+      eventEmitter.emit('F')
     } else if (key.name === 'down') {
-      // console.log('Backward')
-      eventEmitter.emit('Backward')
-      // leftWheel.cw()
-      // rightWheel.ccw()
+      eventEmitter.emit('B')
     } else if (key.name === 'left') {
-      // console.log('Left')
-      eventEmitter.emit('Left')
-      // leftWheel.ccw()
-      // rightWheel.ccw()
+      eventEmitter.emit('L')
     } else if (key.name === 'right') {
-      // console.log('Right')
-      eventEmitter.emit('Right')
-      // leftWheel.cw()
-      // rightWheel.cw()
+      eventEmitter.emit('R')
     } else if (key.name === 'space') {
       console.log('Stopping')
       leftWheel.stop()
