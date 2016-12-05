@@ -9,6 +9,8 @@
   "author": "@muygrafico",
   "license": "ISC",
   "dependencies": {
-    "johnny-five": "^0.10.6"
+    "events": "^1.1.1",
+    "johnny-five": "latest",
+    "keypress": "latest"
   }
 }
