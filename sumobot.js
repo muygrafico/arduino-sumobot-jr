@@ -30,7 +30,10 @@ eventEmitter.on('R', function () {
   console.log('Right')
 })
 
-var board = new five.Board()
+// var board = new five.Board()
+var board = new five.Board({
+  port: '/dev/cu.RandomBot-DevB'
+})
 
 board.on('ready', function () {
   console.log('Welcome to Sumobot Jr!')
